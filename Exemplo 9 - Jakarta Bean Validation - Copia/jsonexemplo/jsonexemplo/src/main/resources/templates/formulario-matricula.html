@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title th:text="${titulo}">
+        Matrícula
+    </title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+
+</head>
+
+<body>
+
+<header>
+
+    <h1>Sistema de Gestão Acadêmica</h1>
+
+</header>
+
+
+<main class="container">
+
+
+    <!-- MENU -->
+
+    <nav class="menu">
+
+        <a class="botao botao-editar"
+           th:href="@{/alunos}">
+            Alunos
+        </a>
+
+        <a class="botao botao-editar"
+           th:href="@{/cursos}">
+            Cursos
+        </a>
+
+        <a class="botao botao-editar"
+           th:href="@{/disciplinas}">
+            Disciplinas
+        </a>
+
+        <a class="botao botao-editar"
+           th:href="@{/matriculas}">
+            Matrículas
+        </a>
+
+    </nav>
+
+
+    <h2 th:text="${titulo}">
+        Matrícula
+    </h2>
+
+
+    <!-- ========================================= -->
+    <!-- CADASTRO -->
+    <!-- ========================================= -->
+
+    <form
+        class="formulario"
+        th:if="${matricula.id == null}"
+        th:action="@{/matriculas}"
+        th:object="${matricula}"
+        method="post">
+
+
+        <!-- ERROS GERAIS -->
+
+        <div
+            class="mensagem mensagem-erro campo-completo"
+            th:if="${#fields.hasGlobalErrors()}">
+
+            <div
+                th:each="erro : ${#fields.globalErrors()}"
+                th:text="${erro}">
+            </div>
+
+        </div>
+
+
+        <!-- ALUNO -->
+
+        <div class="campo">
+
+            <label for="alunoCadastro">
+                Aluno
+            </label>
+
+            <select
+                id="alunoCadastro"
+                th:field="*{alunoId}"
+                th:classappend="${#fields.hasErrors('alunoId')} ? 'input-erro'">
+
+                <option value="">
+                    Selecione o aluno
+                </option>
+
+                <option
+                    th:each="aluno : ${alunos}"
+                    th:value="${aluno.id}"
+                    th:text="${aluno.nome + ' - ' + aluno.cursoNome}">
+                </option>
+
+            </select>
+
+
+            <span
+                class="erro-campo"
+                th:if="${#fields.hasErrors('alunoId')}"
+                th:errors="*{alunoId}">
+            </span>
+
+        </div>
+
+
+        <!-- DISCIPLINA -->
+
+        <div class="campo">
+
+            <label for="disciplinaCadastro">
+                Disciplina
+            </label>
+
+            <select
+                id="disciplinaCadastro"
+                th:field="*{disciplinaId}"
+                th:classappend="${#fields.hasErrors('disciplinaId')} ? 'input-erro'">
+
+                <option value="">
+                    Selecione a disciplina
+                </option>
+
+                <option
+                    th:each="disciplina : ${disciplinas}"
+                    th:value="${disciplina.id}"
+                    th:text="${disciplina.curso != null
+                             ? disciplina.nome + ' - ' + disciplina.curso.nome
+                             : disciplina.nome}">
+                </option>
+
+            </select>
+
+
+            <span
+                class="erro-campo"
+                th:if="${#fields.hasErrors('disciplinaId')}"
+                th:errors="*{disciplinaId}">
+            </span>
+
+        </div>
+
+
+        <!-- BOTÕES -->
+
+        <div class="acoes campo-completo">
+
+            <button
+                class="botao botao-salvar"
+                type="submit">
+
+                Matricular
+
+            </button>
+
+
+            <a
+                class="botao botao-voltar"
+                th:href="@{/matriculas}">
+
+                Voltar
+
+            </a>
+
+        </div>
+
+    </form>
+
+
+    <!-- ========================================= -->
+    <!-- EDIÇÃO -->
+    <!-- ========================================= -->
+
+    <form
+        class="formulario"
+        th:if="${matricula.id != null}"
+        th:action="@{/matriculas/{id}/editar(id=${matricula.id})}"
+        th:object="${matricula}"
+        method="post">
+
+
+        <input
+            type="hidden"
+            th:field="*{id}">
+
+
+        <!-- ERROS GERAIS -->
+
+        <div
+            class="mensagem mensagem-erro campo-completo"
+            th:if="${#fields.hasGlobalErrors()}">
+
+            <div
+                th:each="erro : ${#fields.globalErrors()}"
+                th:text="${erro}">
+            </div>
+
+        </div>
+
+
+        <!-- ALUNO -->
+
+        <div class="campo">
+
+            <label for="alunoEdicao">
+                Aluno
+            </label>
+
+            <select
+                id="alunoEdicao"
+                th:field="*{alunoId}"
+                th:classappend="${#fields.hasErrors('alunoId')} ? 'input-erro'">
+
+                <option value="">
+                    Selecione o aluno
+                </option>
+
+                <option
+                    th:each="aluno : ${alunos}"
+                    th:value="${aluno.id}"
+                    th:text="${aluno.nome + ' - ' + aluno.cursoNome}">
+                </option>
+
+            </select>
+
+
+            <span
+                class="erro-campo"
+                th:if="${#fields.hasErrors('alunoId')}"
+                th:errors="*{alunoId}">
+            </span>
+
+        </div>
+
+
+        <!-- DISCIPLINA -->
+
+        <div class="campo">
+
+            <label for="disciplinaEdicao">
+                Disciplina
+            </label>
+
+            <select
+                id="disciplinaEdicao"
+                th:field="*{disciplinaId}"
+                th:classappend="${#fields.hasErrors('disciplinaId')} ? 'input-erro'">
+
+                <option value="">
+                    Selecione a disciplina
+                </option>
+
+                <option
+                    th:each="disciplina : ${disciplinas}"
+                    th:value="${disciplina.id}"
+                    th:text="${disciplina.curso != null
+                             ? disciplina.nome + ' - ' + disciplina.curso.nome
+                             : disciplina.nome}">
+                </option>
+
+            </select>
+
+
+            <span
+                class="erro-campo"
+                th:if="${#fields.hasErrors('disciplinaId')}"
+                th:errors="*{disciplinaId}">
+            </span>
+
+        </div>
+
+
+        <!-- BOTÕES -->
+
+        <div class="acoes campo-completo">
+
+            <button
+                class="botao botao-salvar"
+                type="submit">
+
+                Salvar alterações
+
+            </button>
+
+
+            <a
+                class="botao botao-voltar"
+                th:href="@{/matriculas}">
+
+                Voltar
+
+            </a>
+
+        </div>
+
+    </form>
+
+
+</main>
+
+</body>
+
+</html>

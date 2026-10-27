@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Cursos</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header>
+    <h1>Sistema de Gestão de Cursos</h1>
+</header>
+
+<main class="container">
+
+    <h2>Cursos cadastrados</h2>
+
+    <div class="mensagem mensagem-sucesso" th:if="${sucesso}" th:text="${sucesso}"></div>
+    <div class="mensagem mensagem-erro" th:if="${erro}" th:text="${erro}"></div>
+
+    <form class="form-pesquisa" th:action="@{/cursos}" method="get">
+        <div class="campo-pesquisa">
+            <label for="pesquisa">Pesquisar curso</label>
+            <input id="pesquisa" type="text" name="nome" th:value="${nomePesquisa}" placeholder="Digite parte do nome">
+        </div>
+
+        <button class="botao botao-pesquisar" type="submit">Pesquisar</button>
+        <a class="botao botao-voltar" th:href="@{/cursos}">Limpar</a>
+    </form>
+
+    <div class="mensagem mensagem-erro" th:if="${semResultados}">
+        Nenhum curso encontrado
+    </div>
+
+    <div class="acoes">
+        <a class="botao botao-novo" th:href="@{/cursos/novo}">+ Novo curso</a>
+        <a class="botao botao-voltar" th:href="@{/alunos}">Voltar para alunos</a>
+    </div>
+
+    <div class="tabela-container" th:if="${!semResultados}">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="curso : ${cursos}">
+                    <td th:text="${curso.id}"></td>
+                    <td th:text="${curso.nome}"></td>
+                    <td>
+                        <div class="acoes-tabela">
+                            <a class="botao botao-editar" th:href="@{/cursos/{id}/editar(id=${curso.id})}">Editar</a>
+
+                            <form th:action="@{/cursos/{id}/excluir(id=${curso.id})}" method="post">
+                                <button class="botao botao-excluir" type="submit">Excluir</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</main>
+</body>
+</html>
