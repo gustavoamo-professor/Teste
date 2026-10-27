@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Fragmentos</title>
+</head>
+<body>
+
+<!-- ===================================== -->
+<!-- CABEÇALHO -->
+<!-- ===================================== -->
+<header th:fragment="cabecalho">
+    <h1>Sistema de Gestão Acadêmica</h1>
+</header>
+
+<!-- ===================================== -->
+<!-- MENU -->
+<!-- ===================================== -->
+<nav class="menu" th:fragment="menu">
+    <a class="botao botao-editar" th:href="@{/alunos}">Alunos</a>
+    <a class="botao botao-editar" th:href="@{/cursos}">Cursos</a>
+    <a class="botao botao-editar" th:href="@{/disciplinas}">Disciplinas</a>
+    <a class="botao botao-editar" th:href="@{/matriculas}">Matrículas</a>
+</nav>
+
+<!-- ===================================== -->
+<!-- MENSAGENS DE SUCESSO E ERRO -->
+<!-- ===================================== -->
+<div th:fragment="mensagens">
+    <div class="mensagem mensagem-sucesso"
+         th:if="${sucesso != null}"
+         th:text="${sucesso}"></div>
+
+    <div class="mensagem mensagem-erro"
+         th:if="${erro != null}"
+         th:text="${erro}"></div>
+</div>
+
+</body>
+</html>

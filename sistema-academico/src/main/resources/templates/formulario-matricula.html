@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${titulo}">Matrícula</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header th:replace="~{fragments :: cabecalho}"></header>
+
+<main class="container">
+
+    <nav th:replace="~{fragments :: menu}"></nav>
+
+    <h2 th:text="${titulo}">Matrícula</h2>
+
+    <!-- Um único formulário serve para nova matrícula e edição. -->
+    <form class="formulario"
+          th:action="@{${acao}}"
+          th:object="${matriculaForm}"
+          method="post">
+
+        <!-- ERROS GERAIS (matrícula duplicada, curso diferente...) -->
+        <div class="mensagem mensagem-erro campo-completo"
+             th:if="${#fields.hasGlobalErrors()}">
+            <p th:each="e : ${#fields.globalErrors()}" th:text="${e}"></p>
+        </div>
+
+        <!-- ================= NOVA MATRÍCULA ================= -->
+
+        <!-- ALUNO -->
+        <div class="campo" th:if="${!edicao}">
+            <label for="aluno">Aluno</label>
+            <select id="aluno"
+                    th:field="*{alunoId}"
+                    th:classappend="${#fields.hasErrors('alunoId')} ? 'input-erro'">
+                <option value="">Selecione o aluno</option>
+                <option th:each="a : ${alunos}"
+                        th:value="${a.id}"
+                        th:text="${a.nome + ' (' + a.cursoNome + ')'}"
+                        th:attr="data-curso=${a.curso.id}">
+                </option>
+            </select>
+            <span class="erro-campo"
+                  th:if="${#fields.hasErrors('alunoId')}"
+                  th:errors="*{alunoId}"></span>
+        </div>
+
+        <!-- DISCIPLINA -->
+        <div class="campo" th:if="${!edicao}">
+            <label for="disciplina">Disciplina</label>
+            <select id="disciplina"
+                    th:field="*{disciplinaId}"
+                    th:classappend="${#fields.hasErrors('disciplinaId')} ? 'input-erro'">
+                <option value="">Selecione a disciplina</option>
+                <option th:each="d : ${disciplinas}"
+                        th:value="${d.id}"
+                        th:text="${d.nome + ' (' + d.cursoNome + ')'}"
+                        th:attr="data-curso=${d.curso.id}">
+                </option>
+            </select>
+            <span class="erro-campo"
+                  th:if="${#fields.hasErrors('disciplinaId')}"
+                  th:errors="*{disciplinaId}"></span>
+        </div>
+
+        <!-- ================= EDIÇÃO ================= -->
+        <!-- Aluno e disciplina ficam fixos; só nota e frequência mudam. -->
+        <div class="campo" th:if="${edicao}">
+            <label>Aluno</label>
+            <input type="text" th:value="${alunoNome}" disabled>
+        </div>
+
+        <div class="campo" th:if="${edicao}">
+            <label>Disciplina</label>
+            <input type="text" th:value="${disciplinaNome}" disabled>
+        </div>
+
+        <input type="hidden" th:if="${edicao}" th:field="*{alunoId}">
+        <input type="hidden" th:if="${edicao}" th:field="*{disciplinaId}">
+
+        <!-- NOTA -->
+        <div class="campo">
+            <label for="nota">Nota (0 a 10)</label>
+            <input id="nota"
+                   type="number"
+                   step="0.1"
+                   min="0"
+                   max="10"
+                   th:field="*{nota}"
+                   th:classappend="${#fields.hasErrors('nota')} ? 'input-erro'"
+                   placeholder="Ex.: 8.5">
+            <span class="erro-campo"
+                  th:if="${#fields.hasErrors('nota')}"
+                  th:errors="*{nota}"></span>
+        </div>
+
+        <!-- FREQUÊNCIA -->
+        <div class="campo">
+            <label for="frequencia">Frequência (%)</label>
+            <input id="frequencia"
+                   type="number"
+                   min="0"
+                   max="100"
+                   th:field="*{frequencia}"
+                   th:classappend="${#fields.hasErrors('frequencia')} ? 'input-erro'"
+                   placeholder="Ex.: 92">
+            <span class="erro-campo"
+                  th:if="${#fields.hasErrors('frequencia')}"
+                  th:errors="*{frequencia}"></span>
+        </div>
+
+        <!-- BOTÕES -->
+        <div class="acoes campo-completo">
+            <button class="botao botao-salvar" type="submit">Salvar</button>
+            <a class="botao botao-voltar" th:href="@{/matriculas}">Voltar</a>
+        </div>
+    </form>
+
+    <!-- Facilita a escolha: ao escolher o aluno, só aparecem as
+         disciplinas do curso dele. A validação de verdade é no servidor. -->
+    <script th:if="${!edicao}">
+        (function () {
+            var selAluno = document.getElementById('aluno');
+            var selDisc = document.getElementById('disciplina');
+            if (!selAluno || !selDisc) { return; }
+
+            function filtrar() {
+                var opt = selAluno.options[selAluno.selectedIndex];
+                var curso = opt ? opt.getAttribute('data-curso') : null;
+
+                for (var i = 0; i < selDisc.options.length; i++) {
+                    var o = selDisc.options[i];
+                    var dc = o.getAttribute('data-curso');
+                    if (!dc) { continue; }
+                    var ok = !curso || dc === curso;
+                    o.disabled = !ok;
+                    o.hidden = !ok;
+                }
+
+                var atual = selDisc.options[selDisc.selectedIndex];
+                if (atual && atual.disabled) { selDisc.value = ''; }
+            }
+
+            selAluno.addEventListener('change', filtrar);
+            filtrar();
+        })();
+    </script>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alunos</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header th:replace="~{fragments :: cabecalho}"></header>
+
+<main class="container">
+
+    <nav th:replace="~{fragments :: menu}"></nav>
+
+    <h2>Alunos cadastrados</h2>
+
+    <div th:replace="~{fragments :: mensagens}"></div>
+
+    <!-- PESQUISA -->
+    <form class="form-pesquisa"
+          th:action="@{/alunos}"
+          method="get">
+
+        <div class="campo-pesquisa">
+            <label for="pesquisa">Pesquisar aluno</label>
+            <input id="pesquisa"
+                   type="text"
+                   name="nome"
+                   th:value="${nomePesquisa}"
+                   placeholder="Digite parte do nome">
+        </div>
+
+        <button class="botao botao-pesquisar" type="submit">
+            Pesquisar
+        </button>
+
+        <a class="botao botao-voltar" th:href="@{/alunos}">
+            Limpar
+        </a>
+    </form>
+
+    <!-- NENHUM RESULTADO -->
+    <div class="mensagem mensagem-erro"
+         th:if="${alunos.isEmpty()
+                 and nomePesquisa != null
+                 and !nomePesquisa.isBlank()}">
+        Nenhum aluno encontrado.
+    </div>
+
+    <!-- NOVO ALUNO -->
+    <div class="acoes">
+        <a class="botao botao-novo" th:href="@{/alunos/novo}">
+            + Novo aluno
+        </a>
+    </div>
+
+    <!-- TABELA DE ALUNOS -->
+    <div class="tabela-container" th:if="${!alunos.isEmpty()}">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Idade</th>
+                <th>Curso</th>
+                <th>E-mail</th>
+                <th>RA</th>
+                <th>Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="aluno : ${alunos}">
+                <td th:text="${aluno.id}"></td>
+                <td th:text="${aluno.nome}"></td>
+                <td th:text="${aluno.idade}"></td>
+                <td th:text="${aluno.cursoNome}"></td>
+                <td th:text="${aluno.email}"></td>
+                <td th:text="${aluno.ra}"></td>
+                <td>
+                    <div class="acoes-tabela">
+                        <a class="botao botao-editar"
+                           th:href="@{/alunos/{id}/editar(id=${aluno.id})}">
+                            Editar
+                        </a>
+
+                        <a class="botao botao-pesquisar"
+                           th:href="@{/matriculas(alunoId=${aluno.id})}">
+                            Matrículas
+                        </a>
+
+                        <form th:action="@{/alunos/{id}/excluir(id=${aluno.id})}"
+                              method="post"
+                              onsubmit="return confirm('Excluir este aluno?');">
+                            <button class="botao botao-excluir" type="submit">
+                                Excluir
+                            </button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- NENHUM ALUNO CADASTRADO -->
+    <div class="mensagem mensagem-erro"
+         th:if="${alunos.isEmpty()
+                 and (nomePesquisa == null or nomePesquisa.isBlank())}">
+        Nenhum aluno cadastrado.
+    </div>
+
+</main>
+</body>
+</html>

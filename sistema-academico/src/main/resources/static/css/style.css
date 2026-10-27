@@ -1,0 +1,523 @@
+/* ========================================= */
+/* CONFIGURAÇÕES GERAIS */
+/* ========================================= */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f4f6f8;
+    color: #333333;
+}
+
+/* ========================================= */
+/* CABEÇALHO */
+/* ========================================= */
+header {
+    background-color: #263238;
+    color: white;
+    padding: 22px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+/* ========================================= */
+/* CONTAINER PRINCIPAL */
+/* ========================================= */
+.container {
+    width: 95%;
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 25px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ========================================= */
+/* TÍTULOS */
+/* ========================================= */
+h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #263238;
+}
+
+h3 {
+    margin: 28px 0 12px;
+    color: #263238;
+}
+
+/* ========================================= */
+/* MENU */
+/* ========================================= */
+.menu {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #dddddd;
+    flex-wrap: wrap;
+}
+
+.menu .botao {
+    text-align: center;
+}
+
+/* ========================================= */
+/* FORMULÁRIOS */
+/* ========================================= */
+.formulario {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+/* ========================================= */
+/* CAMPOS */
+/* ========================================= */
+.campo {
+    display: flex;
+    flex-direction: column;
+}
+
+.campo label {
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: #333333;
+}
+
+/* INPUT E SELECT */
+.campo input,
+.campo select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: white;
+}
+
+.campo input:disabled {
+    background-color: #eeeeee;
+    color: #555555;
+}
+
+/* FOCO */
+.campo input:focus,
+.campo select:focus {
+    outline: none;
+    border-color: #1976d2;
+    box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.1);
+}
+
+/* CAMPO QUE OCUPA A LINHA TODA */
+.campo-completo {
+    grid-column: 1 / -1;
+}
+
+/* ========================================= */
+/* BOTÕES */
+/* ========================================= */
+.botao {
+    display: inline-block;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+    transition: opacity 0.2s, transform 0.1s;
+}
+
+/* EFEITO AO PASSAR O MOUSE */
+.botao:hover {
+    opacity: 0.85;
+}
+
+/* EFEITO AO CLICAR */
+.botao:active {
+    transform: scale(0.98);
+}
+
+/* ========================================= */
+/* CORES DOS BOTÕES */
+/* ========================================= */
+
+/* SALVAR / NOVO */
+.botao-salvar,
+.botao-novo {
+    background-color: #2e7d32;
+}
+
+/* EDITAR / MENU */
+.botao-editar {
+    background-color: #1976d2;
+}
+
+/* EXCLUIR */
+.botao-excluir {
+    background-color: #d32f2f;
+}
+
+/* VOLTAR / LIMPAR */
+.botao-voltar {
+    background-color: #616161;
+}
+
+/* PESQUISAR / MATRÍCULAS / DETALHES */
+.botao-pesquisar {
+    background-color: #0277bd;
+}
+
+/* ========================================= */
+/* ÁREA DE AÇÕES */
+/* ========================================= */
+.acoes {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+/* ========================================= */
+/* PESQUISA */
+/* ========================================= */
+.form-pesquisa {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.campo-pesquisa {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.campo-pesquisa label {
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+.campo-pesquisa input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.campo-pesquisa input:focus {
+    outline: none;
+    border-color: #1976d2;
+    box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.1);
+}
+
+/* ========================================= */
+/* TABELAS */
+/* ========================================= */
+.tabela-container {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 25px;
+}
+
+table {
+    width: 100%;
+    min-width: 900px;
+    border-collapse: collapse;
+    background-color: white;
+}
+
+table.tabela-estreita {
+    min-width: 0;
+}
+
+/* CABEÇALHO */
+thead {
+    background-color: #263238;
+    color: white;
+}
+
+/* CÉLULAS */
+th,
+td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #dddddd;
+    vertical-align: middle;
+}
+
+/* LINHAS ALTERNADAS */
+tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* HOVER NA LINHA */
+tbody tr:hover {
+    background-color: #e3f2fd;
+}
+
+/* ========================================= */
+/* AÇÕES DA TABELA */
+/* ========================================= */
+.acoes-tabela {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.acoes-tabela form {
+    margin: 0;
+}
+
+/* ========================================= */
+/* MENSAGENS */
+/* ========================================= */
+.mensagem {
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.mensagem p {
+    margin: 0;
+}
+
+/* SUCESSO */
+.mensagem-sucesso {
+    background-color: #e8f5e9;
+    color: #1b5e20;
+    border: 1px solid #81c784;
+}
+
+/* ERRO */
+.mensagem-erro {
+    background-color: #ffebee;
+    color: #b71c1c;
+    border: 1px solid #ef9a9a;
+}
+
+/* INFORMAÇÃO */
+.mensagem-info {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+}
+
+/* ========================================= */
+/* ERROS DE VALIDAÇÃO */
+/* ========================================= */
+.input-erro {
+    border: 2px solid #d32f2f !important;
+    background-color: #fff8f8 !important;
+}
+
+.erro-campo {
+    display: block;
+    margin-top: 5px;
+    color: #d32f2f;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.input-erro:focus {
+    border-color: #b71c1c !important;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.1);
+}
+
+/* ========================================= */
+/* SELECT */
+/* ========================================= */
+select {
+    cursor: pointer;
+}
+
+/* ========================================= */
+/* SITUAÇÃO DA MATRÍCULA */
+/* ========================================= */
+.selo {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.situacao-aprovado {
+    background-color: #e8f5e9;
+    color: #1b5e20;
+}
+
+.situacao-cursando {
+    background-color: #fff8e1;
+    color: #8d6e00;
+}
+
+.situacao-reprovado {
+    background-color: #ffebee;
+    color: #b71c1c;
+}
+
+/* ========================================= */
+/* DETALHE DO CURSO (árvore) */
+/* ========================================= */
+.cartao {
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+    background-color: #fafafa;
+}
+
+.cartao-titulo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.cartao-sub {
+    color: #666666;
+    font-size: 13px;
+    margin-right: auto;
+}
+
+.arvore {
+    margin: 12px 0 0;
+    padding-left: 22px;
+}
+
+.arvore li {
+    margin-bottom: 6px;
+}
+
+/* ========================================= */
+/* RESPONSIVIDADE */
+/* ========================================= */
+@media (max-width: 768px) {
+
+    /* CABEÇALHO */
+    header {
+        padding: 18px 10px;
+    }
+
+    header h1 {
+        font-size: 22px;
+    }
+
+    /* CONTAINER */
+    .container {
+        width: 95%;
+        margin: 15px auto;
+        padding: 15px;
+    }
+
+    /* MENU */
+    .menu {
+        flex-direction: column;
+    }
+
+    .menu .botao {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* FORMULÁRIO */
+    .formulario {
+        grid-template-columns: 1fr;
+    }
+
+    .campo-completo {
+        grid-column: auto;
+    }
+
+    /* AÇÕES */
+    .acoes {
+        flex-direction: column;
+    }
+
+    .acoes .botao {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* PESQUISA */
+    .form-pesquisa {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .form-pesquisa .botao {
+        width: 100%;
+        text-align: center;
+    }
+
+    .campo input,
+    .campo select,
+    .campo-pesquisa input {
+        max-width: 100%;
+    }
+
+    /* TABELA */
+    th,
+    td {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .acoes-tabela {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .acoes-tabela .botao {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* ========================================= */
+/* CELULARES PEQUENOS */
+/* ========================================= */
+@media (max-width: 480px) {
+
+    body {
+        font-size: 14px;
+    }
+
+    header h1 {
+        font-size: 19px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    .container {
+        width: 100%;
+        margin: 0;
+        padding: 15px;
+        border-radius: 0;
+    }
+
+    .campo input,
+    .campo select,
+    .campo-pesquisa input {
+        font-size: 16px;
+    }
+}

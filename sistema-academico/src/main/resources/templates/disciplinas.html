@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disciplinas</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header th:replace="~{fragments :: cabecalho}"></header>
+
+<main class="container">
+
+    <nav th:replace="~{fragments :: menu}"></nav>
+
+    <h2>Disciplinas cadastradas</h2>
+
+    <div th:replace="~{fragments :: mensagens}"></div>
+
+    <div class="acoes">
+        <a class="botao botao-novo" th:href="@{/disciplinas/novo}">
+            + Nova disciplina
+        </a>
+    </div>
+
+    <div class="tabela-container" th:if="${!disciplinas.isEmpty()}">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Disciplina</th>
+                <th>Curso</th>
+                <th>Carga Horária</th>
+                <th>Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="disciplina : ${disciplinas}">
+                <td th:text="${disciplina.id}"></td>
+                <td th:text="${disciplina.nome}"></td>
+                <td th:text="${disciplina.cursoNome}"></td>
+                <td th:text="${disciplina.cargaHoraria} + ' horas'"></td>
+                <td>
+                    <div class="acoes-tabela">
+                        <a class="botao botao-editar"
+                           th:href="@{/disciplinas/{id}/editar(id=${disciplina.id})}">
+                            Editar
+                        </a>
+
+                        <form th:action="@{/disciplinas/{id}/excluir(id=${disciplina.id})}"
+                              method="post"
+                              onsubmit="return confirm('Excluir esta disciplina?');">
+                            <button class="botao botao-excluir" type="submit">
+                                Excluir
+                            </button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mensagem mensagem-erro" th:if="${disciplinas.isEmpty()}">
+        Nenhuma disciplina cadastrada.
+    </div>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${titulo}">Disciplina</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header th:replace="~{fragments :: cabecalho}"></header>
+
+<main class="container">
+
+    <nav th:replace="~{fragments :: menu}"></nav>
+
+    <h2 th:text="${titulo}">Disciplina</h2>
+
+    <div class="mensagem mensagem-erro" th:if="${cursos.isEmpty()}">
+        Cadastre um curso antes de cadastrar disciplinas.
+        <a th:href="@{/cursos/novo}">Novo curso</a>
+    </div>
+
+    <!-- Um único formulário serve para cadastro e edição:
+         a URL vem do controller (variável "acao"). -->
+    <form class="formulario"
+          th:action="@{${acao}}"
+          th:object="${disciplina}"
+          method="post">
+
+        <!-- ERROS GERAIS (regras de negócio) -->
+        <div class="mensagem mensagem-erro campo-completo"
+             th:if="${#fields.hasGlobalErrors()}">
+            <p th:each="e : ${#fields.globalErrors()}" th:text="${e}"></p>
+        </div>
+
+        <!-- NOME -->
+        <div class="campo campo-completo">
+            <label for="nome">Nome da disciplina</label>
+            <input id="nome"
+                   type="text"
+                   th:field="*{nome}"
+                   th:classappend="${#fields.hasErrors('nome')} ? 'input-erro'"
+                   placeholder="Ex.: Programação Java">
+            <span class="erro-campo"
+                  th:if="${#fields.hasErrors('nome')}"
+                  th:errors="*{nome}"></span>
+        </div>
+
+        <!-- CARGA HORÁRIA -->
+        <div class="campo">
+            <label for="cargaHoraria">Carga horária</label>
+            <input id="cargaHoraria"
+                   type="number"
+                   min="1"
+                   th:field="*{cargaHoraria}"
+                   th:classappend="${#fields.hasErrors('cargaHoraria')} ? 'input-erro'"
+                   placeholder="Ex.: 80">
+            <span class="erro-campo"
+                  th:if="${#fields.hasErrors('cargaHoraria')}"
+                  th:errors="*{cargaHoraria}"></span>
+        </div>
+
+        <!-- CURSO -->
+        <div class="campo">
+            <label for="curso">Curso</label>
+            <select id="curso"
+                    name="curso.id"
+                    th:classappend="${#fields.hasErrors('curso')} ? 'input-erro'">
+                <option value="">Selecione o curso</option>
+                <option th:each="c : ${cursos}"
+                        th:value="${c.id}"
+                        th:text="${c.nome}"
+                        th:selected="${disciplina.curso != null
+                                      and disciplina.curso.id == c.id}">
+                </option>
+            </select>
+            <span class="erro-campo"
+                  th:if="${#fields.hasErrors('curso')}"
+                  th:errors="*{curso}"></span>
+        </div>
+
+        <!-- BOTÕES -->
+        <div class="acoes campo-completo">
+            <button class="botao botao-salvar" type="submit">Salvar</button>
+            <a class="botao botao-voltar" th:href="@{/disciplinas}">Voltar</a>
+        </div>
+    </form>
+
+</main>
+</body>
+</html>

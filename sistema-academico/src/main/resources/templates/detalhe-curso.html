@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${curso.nome}">Curso</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header th:replace="~{fragments :: cabecalho}"></header>
+
+<main class="container">
+
+    <nav th:replace="~{fragments :: menu}"></nav>
+
+    <h2>Curso: <span th:text="${curso.nome}"></span></h2>
+
+    <div class="acoes">
+        <a class="botao botao-voltar" th:href="@{/cursos}">Voltar</a>
+        <a class="botao botao-novo" th:href="@{/disciplinas/novo}">
+            + Nova disciplina
+        </a>
+        <a class="botao botao-novo" th:href="@{/alunos/novo}">
+            + Novo aluno
+        </a>
+    </div>
+
+    <!-- ===================================== -->
+    <!-- CURSO → DISCIPLINAS -->
+    <!-- ===================================== -->
+    <h3>Disciplinas do curso</h3>
+
+    <div class="tabela-container" th:if="${!disciplinas.isEmpty()}">
+        <table class="tabela-estreita">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Disciplina</th>
+                <th>Carga Horária</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="disciplina : ${disciplinas}">
+                <td th:text="${disciplina.id}"></td>
+                <td th:text="${disciplina.nome}"></td>
+                <td th:text="${disciplina.cargaHoraria} + ' horas'"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mensagem mensagem-erro" th:if="${disciplinas.isEmpty()}">
+        Este curso ainda não possui disciplinas.
+    </div>
+
+    <!-- ===================================== -->
+    <!-- CURSO → ALUNOS → MATRÍCULAS → DISCIPLINAS -->
+    <!-- ===================================== -->
+    <h3>Alunos e suas matrículas</h3>
+
+    <div class="mensagem mensagem-erro" th:if="${alunos.isEmpty()}">
+        Este curso ainda não possui alunos.
+    </div>
+
+    <div class="cartao" th:each="aluno : ${alunos}">
+        <div class="cartao-titulo">
+            <strong th:text="${aluno.nome}"></strong>
+            <span class="cartao-sub" th:text="'RA ' + ${aluno.ra}"></span>
+            <a class="botao botao-pesquisar"
+               th:href="@{/matriculas(alunoId=${aluno.id})}">
+                Matrículas
+            </a>
+            <a class="botao botao-novo"
+               th:href="@{/matriculas/nova(alunoId=${aluno.id})}">
+                + Matricular
+            </a>
+        </div>
+
+        <ul class="arvore" th:with="lista=${matriculasPorAluno[aluno.id]}">
+            <li th:if="${lista == null or lista.isEmpty()}">
+                Sem matrículas.
+            </li>
+            <li th:each="m : ${lista}">
+                <span th:text="${m.disciplina.nome}"></span>
+                &mdash;
+                nota
+                <span th:text="${m.nota != null
+                                ? #numbers.formatDecimal(m.nota, 1, 1)
+                                : '-'}"></span>,
+                frequência
+                <span th:text="${m.frequencia != null
+                                ? m.frequencia + '%'
+                                : '-'}"></span>
+                <span class="selo"
+                      th:classappend="${m.situacaoCss}"
+                      th:text="${m.situacao}"></span>
+            </li>
+        </ul>
+    </div>
+
+</main>
+</body>
+</html>

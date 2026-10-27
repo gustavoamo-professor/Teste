@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${titulo}">Aluno</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header th:replace="~{fragments :: cabecalho}"></header>
+
+<main class="container">
+
+    <nav th:replace="~{fragments :: menu}"></nav>
+
+    <h2 th:text="${titulo}">Aluno</h2>
+
+    <div class="mensagem mensagem-erro" th:if="${cursos.isEmpty()}">
+        Cadastre um curso antes de cadastrar alunos.
+        <a th:href="@{/cursos/novo}">Novo curso</a>
+    </div>
+
+    <form class="formulario"
+          th:action="@{${acao}}"
+          th:object="${aluno}"
+          method="post">
+
+        <!-- ERROS GERAIS (regras de negócio) -->
+        <div class="mensagem mensagem-erro campo-completo"
+             th:if="${#fields.hasGlobalErrors()}">
+            <p th:each="e : ${#fields.globalErrors()}" th:text="${e}"></p>
+        </div>
+
+        <!-- NOME -->
+        <div class="campo campo-completo">
+            <label for="nome">Nome</label>
+            <input id="nome"
+                   type="text"
+                   th:field="*{nome}"
+                   th:classappend="${#fields.hasErrors('nome')} ? 'input-erro'"
+                   placeholder="Ex.: Gustavo Silva">
+            <span class="erro-campo"
+                  th:if="${#fields.hasErrors('nome')}"
+                  th:errors="*{nome}"></span>
+        </div>
+
+        <!-- IDADE -->
+        <div class="campo">
+            <label for="idade">Idade</label>
+            <input id="idade"
+                   type="number"
+                   min="1"
+                   max="120"
+                   th:field="*{idade}"
+                   th:classappend="${#fields.hasErrors('idade')} ? 'input-erro'">
+            <span class="erro-campo"
+                  th:if="${#fields.hasErrors('idade')}"
+                  th:errors="*{idade}"></span>
+        </div>
+
+        <!-- RA -->
+        <div class="campo">
+            <label for="ra">RA (registro acadêmico)</label>
+            <input id="ra"
+                   type="text"
+                   th:field="*{ra}"
+                   th:classappend="${#fields.hasErrors('ra')} ? 'input-erro'"
+                   placeholder="Ex.: RA0001">
+            <span class="erro-campo"
+                  th:if="${#fields.hasErrors('ra')}"
+                  th:errors="*{ra}"></span>
+        </div>
+
+        <!-- E-MAIL -->
+        <div class="campo">
+            <label for="email">E-mail</label>
+            <input id="email"
+                   type="email"
+                   th:field="*{email}"
+                   th:classappend="${#fields.hasErrors('email')} ? 'input-erro'"
+                   placeholder="aluno@exemplo.com">
+            <span class="erro-campo"
+                  th:if="${#fields.hasErrors('email')}"
+                  th:errors="*{email}"></span>
+        </div>
+
+        <!-- CURSO -->
+        <div class="campo">
+            <label for="curso">Curso</label>
+            <select id="curso"
+                    name="curso.id"
+                    th:classappend="${#fields.hasErrors('curso')} ? 'input-erro'">
+                <option value="">Selecione o curso</option>
+                <option th:each="c : ${cursos}"
+                        th:value="${c.id}"
+                        th:text="${c.nome}"
+                        th:selected="${aluno.curso != null
+                                      and aluno.curso.id == c.id}">
+                </option>
+            </select>
+            <span class="erro-campo"
+                  th:if="${#fields.hasErrors('curso')}"
+                  th:errors="*{curso}"></span>
+        </div>
+
+        <!-- BOTÕES -->
+        <div class="acoes campo-completo">
+            <button class="botao botao-salvar" type="submit">Salvar</button>
+            <a class="botao botao-voltar" th:href="@{/alunos}">Voltar</a>
+        </div>
+    </form>
+
+</main>
+</body>
+</html>

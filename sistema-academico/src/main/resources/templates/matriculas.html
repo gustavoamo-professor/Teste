@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrículas</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header th:replace="~{fragments :: cabecalho}"></header>
+
+<main class="container">
+
+    <nav th:replace="~{fragments :: menu}"></nav>
+
+    <h2>Matrículas</h2>
+
+    <div th:replace="~{fragments :: mensagens}"></div>
+
+    <!-- FILTRO ATIVO (vindo de Alunos → Matrículas) -->
+    <div class="mensagem mensagem-info" th:if="${alunoFiltro != null}">
+        Mostrando as matrículas de
+        <strong th:text="${alunoFiltro.nome}"></strong>
+        (<span th:text="${alunoFiltro.cursoNome}"></span>).
+        <a th:href="@{/matriculas}">Ver todas</a>
+    </div>
+
+    <!-- NOVA MATRÍCULA -->
+    <div class="acoes">
+        <a class="botao botao-novo"
+           th:if="${alunoFiltro == null}"
+           th:href="@{/matriculas/nova}">
+            + Nova matrícula
+        </a>
+        <a class="botao botao-novo"
+           th:if="${alunoFiltro != null}"
+           th:href="@{/matriculas/nova(alunoId=${alunoFiltro.id})}">
+            + Nova matrícula
+        </a>
+    </div>
+
+    <!-- TABELA -->
+    <div class="tabela-container" th:if="${!matriculas.isEmpty()}">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Aluno</th>
+                <th>Curso</th>
+                <th>Disciplina</th>
+                <th>Nota</th>
+                <th>Frequência</th>
+                <th>Situação</th>
+                <th>Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="matricula : ${matriculas}">
+                <td th:text="${matricula.id}"></td>
+                <td th:text="${matricula.aluno.nome}"></td>
+                <td th:text="${matricula.disciplina.cursoNome}"></td>
+                <td th:text="${matricula.disciplina.nome}"></td>
+                <td th:text="${matricula.nota != null
+                               ? #numbers.formatDecimal(matricula.nota, 1, 1)
+                               : '-'}"></td>
+                <td th:text="${matricula.frequencia != null
+                               ? matricula.frequencia + '%'
+                               : '-'}"></td>
+                <td>
+                    <span class="selo"
+                          th:classappend="${matricula.situacaoCss}"
+                          th:text="${matricula.situacao}"></span>
+                </td>
+                <td>
+                    <div class="acoes-tabela">
+                        <a class="botao botao-editar"
+                           th:href="@{/matriculas/{id}/editar(id=${matricula.id})}">
+                            Editar
+                        </a>
+
+                        <form th:action="@{/matriculas/{id}/excluir(id=${matricula.id})}"
+                              method="post"
+                              onsubmit="return confirm('Excluir esta matrícula?');">
+                            <button class="botao botao-excluir" type="submit">
+                                Excluir
+                            </button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mensagem mensagem-erro" th:if="${matriculas.isEmpty()}">
+        Nenhuma matrícula encontrada.
+    </div>
+
+</main>
+</body>
+</html>
