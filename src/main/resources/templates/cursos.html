@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciamento de Cursos</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header>
+    <h1>Sistema de Gestão de Alunos</h1>
+</header>
+
+<main class="container">
+
+    <h2>Cursos Cadastrados</h2>
+
+    <!-- Link para voltar ao início/alunos e cadastrar novo curso -->
+    <div class="acoes" style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+        <a class="botao botao-voltar" th:href="@{/alunos}">← Voltar para Alunos</a>
+        <a class="botao botao-novo" th:href="@{/cursos/novo}">+ Novo Curso</a>
+    </div>
+
+    <!-- Tabela de Cursos -->
+    <div class="tabela-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome do Curso</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="curso : ${cursos}">
+                    <td th:text="${curso.id}"></td>
+                    <td th:text="${curso.nome}"></td>
+                    <td>
+                        <div class="acoes-tabela">
+                            <a class="botao botao-editar" th:href="@{/cursos/{id}/editar(id=${curso.id})}">
+                                Editar
+                            </a>
+
+                            <form th:action="@{/cursos/{id}/excluir(id=${curso.id})}" method="post" 
+                                  onsubmit="return confirm('Deseja realmente excluir este curso? Alunos vinculados a ele podem ser afetados.');">
+                                <button class="botao botao-excluir" type="submit">
+                                    Excluir
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                <tr th:if="${cursos.isEmpty()}">
+                    <td colspan="3" style="text-align: center; color: #666;">Nenhum curso cadastrado.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</main>
+</body>
+</html>
