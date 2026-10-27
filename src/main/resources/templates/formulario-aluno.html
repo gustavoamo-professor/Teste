@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${titulo}">Aluno</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<header>
+    <h1>Sistema de Gestão de Alunos</h1>
+</header>
+
+<main class="container">
+
+    <h2 th:text="${titulo}">Cadastro de Aluno</h2>
+
+    <!-- MENSAGEM DE SUCESSO -->
+    <div
+        class="mensagem mensagem-sucesso"
+        th:if="${sucesso}"
+        th:text="${sucesso}">
+    </div>
+
+    <!-- MENSAGEM DE ERRO -->
+    <div
+        class="mensagem mensagem-erro"
+        th:if="${erro}"
+        th:text="${erro}">
+    </div>
+
+    <!-- =====================================
+         FORMULÁRIO DE CADASTRO
+         ===================================== -->
+    <form
+        class="formulario"
+        th:if="${aluno.id == null}"
+        th:action="@{/alunos}"
+        th:object="${aluno}"
+        method="post">
+
+        <!-- NOME -->
+        <div class="campo">
+            <label for="nome">Nome</label>
+
+            <input
+                id="nome"
+                type="text"
+                th:field="*{nome}"
+                th:classappend="${#fields.hasErrors('nome')} ? 'input-erro'"
+                placeholder="Digite o nome do aluno">
+
+            <span
+                class="erro-campo"
+                th:if="${#fields.hasErrors('nome')}"
+                th:errors="*{nome}">
+            </span>
+        </div>
+
+        <!-- IDADE -->
+        <div class="campo">
+            <label for="idade">Idade</label>
+
+            <input
+                id="idade"
+                type="number"
+                th:field="*{idade}"
+                th:classappend="${#fields.hasErrors('idade')} ? 'input-erro'"
+                placeholder="Digite a idade">
+
+            <span
+                class="erro-campo"
+                th:if="${#fields.hasErrors('idade')}"
+                th:errors="*{idade}">
+            </span>
+        </div>
+
+        <!-- CURSO -->
+        <div class="campo">
+            <label for="curso">Curso</label>
+
+            <input
+                id="curso"
+                type="text"
+                th:field="*{curso}"
+                th:classappend="${#fields.hasErrors('curso')} ? 'input-erro'"
+                placeholder="Digite o curso">
+
+            <span
+                class="erro-campo"
+                th:if="${#fields.hasErrors('curso')}"
+                th:errors="*{curso}">
+            </span>
+        </div>
+
+        <!-- EMAIL -->
+        <div class="campo">
+            <label for="email">E-mail</label>
+
+            <input
+                id="email"
+                type="email"
+                th:field="*{email}"
+                th:classappend="${#fields.hasErrors('email')} ? 'input-erro'"
+                placeholder="aluno@email.com">
+
+            <span
+                class="erro-campo"
+                th:if="${#fields.hasErrors('email')}"
+                th:errors="*{email}">
+            </span>
+        </div>
+
+        <!-- MATRÍCULA -->
+        <div class="campo campo-completo">
+            <label for="matricula">Matrícula</label>
+
+            <input
+                id="matricula"
+                type="text"
+                th:field="*{matricula}"
+                th:classappend="${#fields.hasErrors('matricula')} ? 'input-erro'"
+                placeholder="Digite a matrícula">
+
+            <span
+                class="erro-campo"
+                th:if="${#fields.hasErrors('matricula')}"
+                th:errors="*{matricula}">
+            </span>
+        </div>
+
+        <!-- BOTÕES -->
+        <div class="acoes campo-completo">
+
+            <button
+                class="botao botao-salvar"
+                type="submit">
+                Salvar
+            </button>
+
+            <a
+                class="botao botao-voltar"
+                th:href="@{/alunos}">
+                Cancelar
+            </a>
+
+        </div>
+
+    </form>
+
+
+    <!-- =====================================
+         FORMULÁRIO DE EDIÇÃO
+         ===================================== -->
+    <form
+        class="formulario"
+        th:if="${aluno.id != null}"
+        th:action="@{/alunos/{id}/editar(id=${aluno.id})}"
+        th:object="${aluno}"
+        method="post">
+
+        <!-- Mantém o ID durante a edição -->
+        <input
+            type="hidden"
+            th:field="*{id}">
+
+        <!-- NOME -->
+        <div class="campo">
+            <label for="nome-editar">Nome</label>
+
+            <input
+                id="nome-editar"
+                type="text"
+                th:field="*{nome}"
+                th:classappend="${#fields.hasErrors('nome')} ? 'input-erro'">
+
+            <span
+                class="erro-campo"
+                th:if="${#fields.hasErrors('nome')}"
+                th:errors="*{nome}">
+            </span>
+        </div>
+
+        <!-- IDADE -->
+        <div class="campo">
+            <label for="idade-editar">Idade</label>
+
+            <input
+                id="idade-editar"
+                type="number"
+                th:field="*{idade}"
+                th:classappend="${#fields.hasErrors('idade')} ? 'input-erro'">
+
+            <span
+                class="erro-campo"
+                th:if="${#fields.hasErrors('idade')}"
+                th:errors="*{idade}">
+            </span>
+        </div>
+
+        <!-- CURSO -->
+        <div class="campo">
+            <label for="curso-editar">Curso</label>
+
+            <input
+                id="curso-editar"
+                type="text"
+                th:field="*{curso}"
+                th:classappend="${#fields.hasErrors('curso')} ? 'input-erro'">
+
+            <span
+                class="erro-campo"
+                th:if="${#fields.hasErrors('curso')}"
+                th:errors="*{curso}">
+            </span>
+        </div>
+
+        <!-- EMAIL -->
+        <div class="campo">
+            <label for="email-editar">E-mail</label>
+
+            <input
+                id="email-editar"
+                type="email"
+                th:field="*{email}"
+                th:classappend="${#fields.hasErrors('email')} ? 'input-erro'">
+
+            <span
+                class="erro-campo"
+                th:if="${#fields.hasErrors('email')}"
+                th:errors="*{email}">
+            </span>
+        </div>
+
+        <!-- MATRÍCULA -->
+        <div class="campo campo-completo">
+            <label for="matricula-editar">Matrícula</label>
+
+            <input
+                id="matricula-editar"
+                type="text"
+                th:field="*{matricula}"
+                th:classappend="${#fields.hasErrors('matricula')} ? 'input-erro'">
+
+            <span
+                class="erro-campo"
+                th:if="${#fields.hasErrors('matricula')}"
+                th:errors="*{matricula}">
+            </span>
+        </div>
+
+        <!-- BOTÕES -->
+        <div class="acoes campo-completo">
+
+            <button
+                class="botao botao-salvar"
+                type="submit">
+                Salvar alterações
+            </button>
+
+            <a
+                class="botao botao-voltar"
+                th:href="@{/alunos}">
+                Cancelar
+            </a>
+
+        </div>
+
+    </form>
+
+</main>
+
+</body>
+</html>

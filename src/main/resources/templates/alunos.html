@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestão de Alunos</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header>
+    <h1>Sistema de Gestão de Alunos</h1>
+</header>
+
+<main class="container">
+
+    <h2>Alunos cadastrados</h2>
+
+    <!-- MENSAGENS -->
+    <div
+        class="mensagem mensagem-sucesso"
+        th:if="${sucesso}"
+        th:text="${sucesso}">
+    </div>
+
+    <div
+        class="mensagem mensagem-erro"
+        th:if="${erro}"
+        th:text="${erro}">
+    </div>
+
+    <!-- PESQUISA -->
+    <form
+        class="form-pesquisa"
+        th:action="@{/alunos}"
+        method="get">
+
+        <div class="campo-pesquisa">
+            <label for="pesquisa">Pesquisar aluno</label>
+            <input
+                id="pesquisa"
+                type="text"
+                name="nome"
+                th:value="${nomePesquisa}"
+                placeholder="Digite parte do nome">
+        </div>
+
+        <button
+            class="botao botao-pesquisar"
+            type="submit">
+            Pesquisar
+        </button>
+
+        <a
+            class="botao botao-voltar"
+            th:href="@{/alunos}">
+            Limpar
+        </a>
+    </form>
+
+    <!-- NENHUM RESULTADO -->
+    <div
+        class="mensagem mensagem-erro"
+        th:if="${semResultados}">
+        Nenhum aluno encontrado
+    </div>
+
+    <!-- NOVO ALUNO -->
+    <div class="acoes">
+        <a
+            class="botao botao-novo"
+            th:href="@{/alunos/novo}">
+            + Novo aluno
+        </a>
+    </div>
+
+    <!-- TABELA -->
+    <div
+        class="tabela-container"
+        th:if="${!semResultados}">
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Idade</th>
+                    <th>Curso</th>
+                    <th>E-mail</th>
+                    <th>Matrícula</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="aluno : ${alunos}">
+                    <td th:text="${aluno.id}"></td>
+                    <td th:text="${aluno.nome}"></td>
+                    <td th:text="${aluno.idade}"></td>
+                    <td th:text="${aluno.curso}"></td>
+                    <td th:text="${aluno.email}"></td>
+                    <td th:text="${aluno.matricula}"></td>
+
+                    <td>
+                        <div class="acoes-tabela">
+
+                            <a
+                                class="botao botao-editar"
+                                th:href="@{/alunos/{id}/editar(id=${aluno.id})}">
+                                Editar
+                            </a>
+
+                            <form
+                                th:action="@{/alunos/{id}/excluir(id=${aluno.id})}"
+                                method="post">
+                                <button
+                                    class="botao botao-excluir"
+                                    type="submit">
+                                    Excluir
+                                </button>
+                            </form>
+
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</main>
+</body>
+</html>
