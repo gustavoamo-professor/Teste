@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disciplinas</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header>
+    <h1>Sistema de Gestão Académica</h1>
+</header>
+<main class="container">
+    <nav class="menu">
+        <a class="botao botao-editar" th:href="@{/alunos}">Alunos</a>
+        <a class="botao botao-editar" th:href="@{/cursos}">Cursos</a>
+        <a class="botao botao-editar" th:href="@{/disciplinas}">Disciplinas</a>
+        <a class="botao botao-editar" th:href="@{/matriculas}">Matrículas</a>
+    </nav>
+
+    <h2>Disciplinas cadastradas</h2>
+
+    <div class="mensagem mensagem-sucesso" th:if="${sucesso != null}" th:text="${sucesso}"></div>
+    <div class="mensagem mensagem-erro" th:if="${erro != null}" th:text="${erro}"></div>
+
+    <div class="acoes">
+        <a class="botao botao-novo" th:href="@{/disciplinas/novo}">+ Nova disciplina</a>
+    </div>
+
+    <div class="tabela-container" th:if="${disciplinas != null and !disciplinas.isEmpty()}">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Disciplina</th>
+                    <th>Carga Horária</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="disciplina : ${disciplinas}">
+                    <td th:text="${disciplina.id}"></td>
+                    <td th:text="${disciplina.nome}"></td>
+                    <td><span th:text="${disciplina.cargaHoraria}"></span> horas</td>
+                    <td>
+                        <div class="acoes-tabela">
+                            <a class="botao botao-editar" th:href="@{/disciplinas/{id}/editar(id=${disciplina.id})}">
+                                Editar
+                            </a>
+                            <form th:action="@{/disciplinas/{id}/excluir(id=${disciplina.id})}" method="post">
+                                <button class="botao botao-excluir" type="submit">Excluir</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mensagem mensagem-erro" th:if="${disciplinas != null and disciplinas.isEmpty()}">
+        Nenhuma disciplina cadastrada.
+    </div>
+</main>
+</body>
+</html>

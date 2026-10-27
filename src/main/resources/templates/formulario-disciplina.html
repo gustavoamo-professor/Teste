@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${titulo}">Disciplina</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header>
+    <h1>Sistema de Gestão Académica</h1>
+</header>
+<main class="container">
+    <h2 th:text="${titulo}">Disciplina</h2>
+
+    <!-- CADASTRO (id == null) -->
+    <form class="formulario" th:if="${disciplina.id == null}" th:action="@{/disciplinas}" th:object="${disciplina}" method="post">
+        <div class="campo campo-completo">
+            <label for="nomeCadastro">Nome da disciplina</label>
+            <input id="nomeCadastro" type="text" th:field="*{nome}" th:classappend="${#fields.hasErrors('nome')} ? 'input-erro'" placeholder="Ex.: Programação Java">
+            <span class="erro-campo" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
+        </div>
+
+        <div class="campo">
+            <label for="cargaCadastro">Carga horária</label>
+            <input id="cargaCadastro" type="number" min="1" th:field="*{cargaHoraria}" th:classappend="${#fields.hasErrors('cargaHoraria')} ? 'input-erro'" placeholder="Ex.: 80">
+            <span class="erro-campo" th:if="${#fields.hasErrors('cargaHoraria')}" th:errors="*{cargaHoraria}"></span>
+        </div>
+
+        <div class="acoes campo-completo">
+            <button class="botao botao-salvar" type="submit">Salvar</button>
+            <a class="botao botao-voltar" th:href="@{/disciplinas}">Voltar</a>
+        </div>
+    </form>
+
+    <!-- EDIÇÃO (id != null) -->
+    <form class="formulario" th:if="${disciplina.id != null}" th:action="@{/disciplinas/{id}/editar(id=${disciplina.id})}" th:object="${disciplina}" method="post">
+        <input type="hidden" th:field="*{id}">
+
+        <div class="campo campo-completo">
+            <label for="nomeEdicao">Nome da disciplina</label>
+            <input id="nomeEdicao" type="text" th:field="*{nome}" th:classappend="${#fields.hasErrors('nome')} ? 'input-erro'">
+            <span class="erro-campo" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
+        </div>
+
+        <div class="campo">
+            <label for="cargaEdicao">Carga horária</label>
+            <input id="cargaEdicao" type="number" min="1" th:field="*{cargaHoraria}" th:classappend="${#fields.hasErrors('cargaHoraria')} ? 'input-erro'">
+            <span class="erro-campo" th:if="${#fields.hasErrors('cargaHoraria')}" th:errors="*{cargaHoraria}"></span>
+        </div>
+
+        <div class="acoes campo-completo">
+            <button class="botao botao-salvar" type="submit">Salvar alterações</button>
+            <a class="botao botao-voltar" th:href="@{/disciplinas}">Voltar</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrículas</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header>
+    <h1>Sistema de Gestão Académica</h1>
+</header>
+<main class="container">
+    <nav class="menu">
+        <a class="botao botao-editar" th:href="@{/alunos}">Alunos</a>
+        <a class="botao botao-editar" th:href="@{/cursos}">Cursos</a>
+        <a class="botao botao-editar" th:href="@{/disciplinas}">Disciplinas</a>
+        <a class="botao botao-editar" th:href="@{/matriculas}">Matrículas</a>
+    </nav>
+
+    <h2>Matrículas</h2>
+
+    <div class="mensagem mensagem-sucesso" th:if="${sucesso != null}" th:text="${sucesso}"></div>
+    <div class="mensagem mensagem-erro" th:if="${erro != null}" th:text="${erro}"></div>
+
+    <div class="acoes" th:if="${alunoSelecionadoId != null}">
+        <a class="botao botao-voltar" th:href="@{/matriculas}">Exibir todas as matrículas</a>
+    </div>
+
+    <form class="formulario" th:action="@{/matriculas}" method="post">
+        <div class="campo">
+            <label for="aluno">Aluno</label>
+            <select id="aluno" name="alunoId" required>
+                <option value="">Selecione o aluno</option>
+                <option th:each="aluno : ${alunos}"
+                        th:value="${aluno.id}"
+                        th:text="${aluno.nome}"
+                        th:selected="${aluno.id == alunoSelecionadoId}">
+                </option>
+            </select>
+        </div>
+
+        <div class="campo">
+            <label for="disciplina">Disciplina</label>
+            <select id="disciplina" name="disciplinaId" required>
+                <option value="">Selecione a disciplina</option>
+                <option th:each="disciplina : ${disciplinas}"
+                        th:value="${disciplina.id}"
+                        th:text="${disciplina.nome}">
+                </option>
+            </select>
+        </div>
+
+        <div class="acoes campo-completo">
+            <button class="botao botao-salvar" type="submit">Matricular</button>
+        </div>
+    </form>
+
+    <div class="tabela-container" th:if="${matriculas != null and !matriculas.isEmpty()}">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Aluno</th>
+                    <th>Disciplina</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="matricula : ${matriculas}">
+                    <td th:text="${matricula.id}"></td>
+                    <td th:text="${matricula.aluno.nome}"></td>
+                    <td th:text="${matricula.disciplina.nome}"></td>
+                    <td>
+                        <div class="acoes-tabela">
+                            <form th:action="@{/matriculas/{id}/excluir(id=${matricula.id})}" method="post">
+                                <input type="hidden" name="alunoId" th:value="${alunoSelecionadoId}"/>
+                                <button class="botao botao-excluir" type="submit">Excluir</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mensagem mensagem-erro" th:if="${matriculas != null and matriculas.isEmpty()}">
+        Nenhuma matrícula cadastrada.
+    </div>
+</main>
+</body>
+</html>
