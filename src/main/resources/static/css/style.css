@@ -1,0 +1,589 @@
+/* =========================================
+   CONFIGURAÇÕES GERAIS
+   ========================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f4f6f8;
+    color: #333333;
+}
+
+
+/* =========================================
+   CABEÇALHO
+   ========================================= */
+
+header {
+    background-color: #263238;
+    color: white;
+    padding: 22px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+
+/* =========================================
+   CONTEÚDO PRINCIPAL
+   ========================================= */
+
+.container {
+    width: 95%;
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 25px;
+
+    background-color: white;
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+
+/* =========================================
+   FORMULÁRIO DE CADASTRO / EDIÇÃO
+   ========================================= */
+
+.formulario {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 20px;
+}
+
+
+/* Cada campo do formulário */
+
+.campo {
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* Rótulo */
+
+.campo label {
+    margin-bottom: 6px;
+
+    font-weight: bold;
+}
+
+
+/* Inputs */
+
+.campo input {
+    width: 100%;
+
+    padding: 10px;
+
+    border:
+        1px solid #cccccc;
+
+    border-radius: 5px;
+
+    font-size: 16px;
+
+    background-color: white;
+}
+
+
+/* Campo selecionado */
+
+.campo input:focus {
+    outline: none;
+
+    border-color: #1976d2;
+
+    box-shadow:
+        0 0 0 2px rgba(25, 118, 210, 0.1);
+}
+
+
+/* Campo ocupando as duas colunas */
+
+.campo-completo {
+    grid-column:
+        1 / -1;
+}
+
+
+/* =========================================
+   BOTÕES
+   ========================================= */
+
+.acoes {
+    display: flex;
+
+    gap: 10px;
+
+    margin-top: 10px;
+
+    flex-wrap: wrap;
+}
+
+
+/* Configuração padrão dos botões */
+
+.botao {
+    display: inline-block;
+
+    padding:
+        10px 16px;
+
+    border: none;
+
+    border-radius: 5px;
+
+    color: white;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    font-size: 14px;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    transition:
+        opacity 0.2s,
+        transform 0.1s;
+}
+
+
+/* Efeito ao passar o mouse */
+
+.botao:hover {
+    opacity: 0.85;
+}
+
+
+/* Efeito ao clicar */
+
+.botao:active {
+    transform: scale(0.98);
+}
+
+
+/* SALVAR / NOVO */
+
+.botao-salvar,
+.botao-novo {
+    background-color: #2e7d32;
+}
+
+
+/* EDITAR */
+
+.botao-editar {
+    background-color: #1976d2;
+}
+
+
+/* EXCLUIR */
+
+.botao-excluir {
+    background-color: #d32f2f;
+}
+
+
+/* VOLTAR / CANCELAR */
+
+.botao-voltar {
+    background-color: #616161;
+}
+
+
+/* PESQUISAR */
+
+.botao-pesquisar {
+    background-color: #1976d2;
+}
+
+
+/* =========================================
+   PESQUISA
+   ========================================= */
+
+.form-pesquisa {
+    display: flex;
+
+    align-items: flex-end;
+
+    gap: 10px;
+
+    margin:
+        20px 0;
+}
+
+
+/* Área do campo de pesquisa */
+
+.campo-pesquisa {
+    display: flex;
+
+    flex-direction: column;
+
+    flex: 1;
+}
+
+
+/* Label da pesquisa */
+
+.campo-pesquisa label {
+    margin-bottom: 6px;
+
+    font-weight: bold;
+}
+
+
+/* Input da pesquisa */
+
+.campo-pesquisa input {
+    width: 100%;
+
+    padding: 10px;
+
+    border:
+        1px solid #cccccc;
+
+    border-radius: 5px;
+
+    font-size: 16px;
+}
+
+
+/* Foco */
+
+.campo-pesquisa input:focus {
+    outline: none;
+
+    border-color: #1976d2;
+
+    box-shadow:
+        0 0 0 2px rgba(25, 118, 210, 0.1);
+}
+
+
+/* =========================================
+   TABELA
+   ========================================= */
+
+/*
+   Permite rolagem horizontal em telas pequenas.
+*/
+
+.tabela-container {
+    width: 100%;
+
+    overflow-x: auto;
+
+    margin-top: 25px;
+}
+
+
+table {
+    width: 100%;
+
+    min-width: 850px;
+
+    border-collapse: collapse;
+
+    background-color: white;
+}
+
+
+/* Cabeçalho */
+
+thead {
+    background-color: #263238;
+
+    color: white;
+}
+
+
+th,
+td {
+    padding: 12px;
+
+    text-align: left;
+
+    border-bottom:
+        1px solid #dddddd;
+}
+
+
+/* Linhas alternadas */
+
+tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+
+/* Efeito ao passar o mouse */
+
+tbody tr:hover {
+    background-color: #e3f2fd;
+}
+
+
+/* =========================================
+   BOTÕES DA TABELA
+   ========================================= */
+
+.acoes-tabela {
+    display: flex;
+
+    gap: 6px;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+}
+
+
+/* Evita margem do form dentro da tabela */
+
+.acoes-tabela form {
+    margin: 0;
+}
+
+
+/* =========================================
+   MENSAGENS
+   ========================================= */
+
+.mensagem {
+    padding: 12px;
+
+    margin-bottom: 20px;
+
+    border-radius: 5px;
+
+    font-weight: bold;
+}
+
+
+/* Mensagem de sucesso */
+
+.mensagem-sucesso {
+    background-color: #e8f5e9;
+
+    color: #1b5e20;
+
+    border:
+        1px solid #81c784;
+}
+
+
+/* Mensagem de erro */
+
+.mensagem-erro {
+    background-color: #ffebee;
+
+    color: #b71c1c;
+
+    border:
+        1px solid #ef9a9a;
+}
+
+
+/* =========================================
+   BEAN VALIDATION
+   ========================================= */
+
+/*
+   Input que possui erro de validação.
+*/
+
+.input-erro {
+    border:
+        2px solid #d32f2f !important;
+
+    background-color: #fff8f8 !important;
+}
+
+
+/* Mensagem exibida abaixo do campo */
+
+.erro-campo {
+    display: block;
+
+    margin-top: 5px;
+
+    color: #d32f2f;
+
+    font-size: 13px;
+
+    font-weight: bold;
+}
+
+
+/* Input inválido selecionado */
+
+.input-erro:focus {
+    border-color:
+        #b71c1c !important;
+
+    outline: none;
+
+    box-shadow:
+        0 0 0 2px rgba(211, 47, 47, 0.1);
+}
+
+
+/* =========================================
+   RESPONSIVIDADE
+   ========================================= */
+
+@media (max-width: 768px) {
+
+    /* CABEÇALHO */
+
+    header {
+        padding: 18px 10px;
+    }
+
+    header h1 {
+        font-size: 22px;
+    }
+
+
+    /* CONTAINER */
+
+    .container {
+        width: 95%;
+
+        margin:
+            15px auto;
+
+        padding: 15px;
+    }
+
+
+    /* FORMULÁRIO */
+
+    .formulario {
+        grid-template-columns:
+            1fr;
+    }
+
+    .campo-completo {
+        grid-column: auto;
+    }
+
+
+    /* BOTÕES */
+
+    .acoes {
+        flex-direction: column;
+    }
+
+    .acoes .botao {
+        width: 100%;
+
+        text-align: center;
+    }
+
+
+    /* PESQUISA */
+
+    .form-pesquisa {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    .form-pesquisa .botao {
+        width: 100%;
+
+        text-align: center;
+    }
+
+
+    /* INPUTS */
+
+    .campo input,
+    .campo-pesquisa input {
+        max-width: 100%;
+    }
+
+
+    /* TABELA */
+
+    th,
+    td {
+        padding: 10px;
+
+        font-size: 14px;
+    }
+
+
+    /* AÇÕES DA TABELA */
+
+    .acoes-tabela {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    .acoes-tabela .botao {
+        width: 100%;
+
+        text-align: center;
+    }
+}
+
+
+/* =========================================
+   TELAS MUITO PEQUENAS
+   ========================================= */
+
+@media (max-width: 480px) {
+
+    body {
+        font-size: 14px;
+    }
+
+    header h1 {
+        font-size: 19px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    .container {
+        width: 100%;
+
+        margin: 0;
+
+        border-radius: 0;
+
+        padding: 15px;
+    }
+
+    .campo input,
+    .campo-pesquisa input {
+        font-size: 16px;
+    }
+}
