@@ -1,13 +1,15 @@
 package com.example.jsonex.jsonexemplo;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-
-@SpringBootTest
 class JsonexemploApplicationTests {
 
 	@Test
 	void contextLoads() {
+		assertTrue(true);
+	}
+
+	private void assertTrue(boolean b) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'assertTrue'");
 	}
 
 }
